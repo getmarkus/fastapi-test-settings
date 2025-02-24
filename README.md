@@ -98,3 +98,18 @@ I have a repo for the full example: [https://github.com/getmarkus/fastapi-test-s
        """Create test app instance only during test execution."""
        return create_app()
    ```
+
+6. Create a test that uses the app fixture
+
+   ```python
+   from fastapi.testclient import TestClient
+
+   from .conftest import settings
+
+
+   def test_read_main(client: TestClient):
+       response = client.get("/")
+       assert response.status_code == 200
+       assert response.json() == {"msg": "Test App"}
+       assert response.json() == {"msg": settings.app_name}
+   ```
